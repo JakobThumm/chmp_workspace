@@ -1,0 +1,4 @@
+# Keeps the otherwise-empty src/ tracked.
+# src/ contents are gitignored: they are vcs-imported (uq_msgs, optional realsense)
+# or bind-mounted from the host (chmp_inference). See ../chmp_workspace.repos and
+# ../docker/docker-compose.yml.

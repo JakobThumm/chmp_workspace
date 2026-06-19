@@ -1,0 +1,15 @@
+repositories:
+  uq_msgs:
+    type: git
+    # https URL so `vcs import` works in-container without an SSH key.
+    # If this repo is private, mount an ssh-agent socket / ~/.ssh and switch to git@.
+    url: https://github.com/JakobThumm/uq_msgs.git
+    version: 67b7cfa7c387da653b6a1a34cea033f908d7d178   # pinned
+
+  # OPT-IN: RealSense hardware only. Also needs the librealsense SDK / ROS2 driver
+  # (see scripts/setup_workspace.sh, which apt-installs ros-jazzy-realsense2-camera
+  # when this package is present in src/). Uncomment to pull it.
+  # realsense_rgbd_streamer:
+  #   type: git
+  #   url: https://github.com/JakobThumm/realsense_rgbd_streamer.git
+  #   version: d6c1988c82f4f8a0ad99beb7b8c024f2cd16a3ef

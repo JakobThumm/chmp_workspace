@@ -1,0 +1,22 @@
+# colcon build artifacts
+/build/
+/install/
+/log/
+
+# workspace venv (created by scripts/setup_workspace.sh)
+/.venv/
+
+# src/ holds vcs-imported repos + dev mounts; track only the placeholder
+/src/*
+!/src/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
