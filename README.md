@@ -83,6 +83,24 @@ RealSense hardware streaming is **off by default**. To enable it:
 Without it, the pipeline consumes a compressed RGB-D stream on the
 `rgbd_stream/{rgb,depth}/compressed` topics (publish from any source).
 
+## Multi-machine / stereo networking
+
+For a multi-PC setup (e.g. a camera PC streaming to this processing PC, or two cameras for
+`stereo` mode), the container uses **`rmw_zenoh_cpp`** with `network_mode: host`:
+
+- `run.sh` starts a **Zenoh router** in the container, listening on `tcp/0.0.0.0:7447`
+  (config in [`docker/router.json5`](docker/router.json5)).
+- On each **remote PC**, install ROS2 Jazzy, set `RMW_IMPLEMENTATION=rmw_zenoh_cpp`, and point its
+  Zenoh session at this PC's router by setting `ZENOH_ROUTER_CONFIG_URI` (or
+  `ZENOH_CONFIG_OVERRIDE='connect/endpoints=["tcp/<workstation_ip>:7447"]'`). Verify discovery
+  with `ros2 node list` / `ros2 topic list` from the remote PC.
+- Keep `ROS_DOMAIN_ID` identical on every machine (the compose sets `ROS_DOMAIN_ID=1`).
+- Open the router port in the firewall: `sudo ufw allow 7447`.
+- Stereo mode needs both camera streams **time-synced (<50 ms)** for good triangulation.
+
+If nodes can't see each other, confirm the router is up (`docker logs chmp-ros2-cuda`), the remote
+PC can reach `<workstation_ip>:7447`, and both ends use the same RMW + domain ID.
+
 ## GPU / ptxas notes
 
 The image's CUDA 12.8 devel base ships a recent `ptxas`, so JAX assembles sm_120
